@@ -54,9 +54,7 @@ export function SiteFooter({ nav, sample }: { nav: string[][]; sample: boolean }
         <div className="footer-bottom">
           <div className="footer-credit">
             <a href="https://github.com/AOSSIE-Org/OpenVerifiableLLM" target="_blank" rel="noopener noreferrer">Made by AOSSIE<span className="sr-only"> (external, opens in a new tab)</span></a>
-            {sample && <span className="sample-label">Synthetic sample data</span>}
           </div>
-          <p className="footer-note">OpenVerifiableLLM · Research Preview</p>
         </div>
       </div>
     </div>
