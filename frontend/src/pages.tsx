@@ -3,6 +3,7 @@ import { type Snapshot, type Evidence, results, scopes, evidenceChecks, immutabl
 import { Button, CheckFacts, Copy, EvidenceLink, External, Label, Note, ResultText, SourceInfo, State, Title, attributionNames, formatDate } from './components';
 import { detailHref } from './router';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import { GlowCard } from '@/components/ui/spotlight-card';
 
 const stages = ['Public sources', 'Prepared data / tokenizer', 'Initialization', 'Base training', 'Conversational training', 'Complete replay', 'Publication'];
 export function EvidenceTable({ snapshot, items }: { snapshot: Snapshot; items: Evidence[] }) {
@@ -29,11 +30,11 @@ export function Overview({ snapshot }: { snapshot: Snapshot }) {
         <p className="intro">OpenVerifiableLLM explores whether a small language model’s declared inputs, data preparation and training computation can be inspected and reproduced.</p>
         <div className="actions"><Button href="#/evidence">Explore evidence</Button><a href="#/verification">How verification works <span aria-hidden="true">↗</span></a></div>
       </div>
-      <aside className="research-note"><Label>Release availability</Label><h2>{hasReleased ? 'Release records supplied.' : 'Not released yet.'}</h2>
+      <GlowCard as="aside" customSize glowColor="blue" className="research-note"><Label>Release availability</Label><h2>{hasReleased ? 'Release records supplied.' : 'Not released yet.'}</h2>
         <p>{hasReleased ? 'Inspect exact identities and scoped reports. Synthetic release examples are not downloadable project models.' : 'Final base and conversational models are not available in this snapshot.'}</p>
         <hr /><div className="mono small"><p>Snapshot: {formatDate(snapshot.generatedAt)}</p><p>{snapshot.mode === 'fixture' ? 'Actual project status: approval pending' : 'Approved public display snapshot'}</p></div>
         <a href="#/releases">View releases <span aria-hidden="true">↗</span></a>
-      </aside>
+      </GlowCard>
     </section>
     <hr />
     <section className="section stack"><Label>01 / The process</Label><h2>From public inputs to a reproducible release.</h2>
@@ -121,7 +122,7 @@ export function EvidenceDetail({ snapshot, id }: { snapshot: Snapshot; id: strin
 export function Releases({ snapshot }: { snapshot: Snapshot }) {
   return <>
     <Title label="Model releases" intro="Exact weights, immutable revisions and scoped verification reports belong together. Availability comes from supplied release metadata.">A release is more than a download.</Title>
-    <div className="release-grid">{snapshot.releases.map((r, i) => <article className="release-card" key={r.id} id={'release-' + r.id}>
+    <div className="release-grid">{snapshot.releases.map((r, i) => <GlowCard as="article" customSize glowColor={r.role === 'base' ? 'blue' : 'purple'} className="release-card" key={r.id} id={'release-' + r.id}>
       <Label>Role / {String(i + 1).padStart(2, '0')}</Label><h2>{r.role === 'base' ? 'Base model' : 'Conversational model'}</h2><p className="muted">{r.role === 'base' ? 'The pretrained model for completion.' : 'The conversational model, with an explicit base parent.'}</p><hr />
       <h3>{r.availability === 'not-released' ? 'Not released yet.' : r.availability === 'withdrawn' ? 'Release withdrawn.' : 'Release metadata supplied.'}</h3>
       {r.availability !== 'available' ? <><p className="muted">Downloads and generation become available after genuine release metadata and supported instructions are supplied.</p><button disabled className="unavailable">Download unavailable</button></> : r.identity && <>
@@ -132,7 +133,7 @@ export function Releases({ snapshot }: { snapshot: Snapshot }) {
         <ul className="file-list">{r.identity.files.map(f => <li key={f.path}><code>{f.path}</code><span>{f.sizeBytes.toLocaleString()} bytes</span>{snapshot.mode === 'public-snapshot' ? <External url={immutableFileUrl(r, f.path)}>Download pinned file</External> : <button disabled>Download unavailable (fixture)</button>}</li>)}</ul>
         <h3>Scoped verification reports</h3>{!r.checkIds.length && <p>No checks reported for this release.</p>}{r.checkIds.map(id => { const c = snapshot.checks.find(c => c.id === id); return c ? <CheckFacts key={id} check={c} snapshot={snapshot} /> : <p key={id} className="missing">Missing check reference: {id}</p>; })}
       </>}
-    </article>)}</div>
+    </GlowCard>)}</div>
     <hr /><section className="stack"><Label>When released</Label><h2>The identity you should be able to inspect.</h2><ol className="requirements">{['Exact repository and immutable revision', 'Release root, inventory, file sizes and license', 'Supported runtime and scoped verification reports', 'Base-parent identity for the conversational model'].map(s => <li key={s}>{s}</li>)}</ol></section>
   </>;
 }

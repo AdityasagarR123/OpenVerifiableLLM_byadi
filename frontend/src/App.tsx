@@ -6,7 +6,7 @@ import { EvidenceDetail, EvidenceExplorer, InferenceUnavailable, Overview, Relea
 import { Button, Label, State, formatDate } from './components';
 import { ScrollLines, SiteFooter, useScrollReveal } from './chrome';
 
-const DevInference = import.meta.env.DEV && import.meta.env.VITE_MOCK_INFERENCE === 'true'
+const DevInference = import.meta.env.DEV && (import.meta.env.VITE_MOCK_INFERENCE === 'true' || window.location.port === '5173')
   ? lazy(() => import('./inference/DevInference')) : null;
 type DataState = { status: 'loading' } | { status: 'ready' | 'stale'; snapshot: Snapshot } | { status: 'error'; message: string };
 const nav = [['/', 'Overview'], ['/evidence', 'Evidence'], ['/releases', 'Releases'], ['/verification', 'Verification'], ['/inference', 'Inference']];

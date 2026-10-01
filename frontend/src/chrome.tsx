@@ -42,11 +42,22 @@ export function useScrollReveal(deps: unknown[]) {
 export function SiteFooter({ nav, sample }: { nav: string[][]; sample: boolean }) {
   return <footer className="site-footer">
     <div className="container footer-inner">
-      <div className="footer-copy">
-        <p className="footer-title">Open to inspect from anywhere.</p>
-        <p className="footer-text">Every report here is a display of what was supplied. Read the record, check the scope.</p>
-        <nav aria-label="Footer" className="footer-nav">{nav.map(([p, label]) => <a key={p} href={'#' + p}>{label}</a>)}</nav>
-        <div className="footer-credit"><a href="https://github.com/AOSSIE-Org/OpenVerifiableLLM" target="_blank" rel="noopener noreferrer">Made by AOSSIE<span className="sr-only"> (external, opens in a new tab)</span></a>{sample && <span className="sample-label">Synthetic sample data</span>}</div>
+      <div className="footer-content">
+        <div className="footer-lead">
+          <p className="footer-eyebrow">Provenance &amp; Verification</p>
+          <p className="footer-title">Open to inspect from anywhere.</p>
+          <p className="footer-text">Every report here is a display of what was supplied. Read the record, check the scope.</p>
+        </div>
+        <nav aria-label="Footer" className="footer-nav">
+          {nav.map(([p, label]) => <a key={p} href={'#' + p} className="footer-nav-link">{label}</a>)}
+        </nav>
+        <div className="footer-bottom">
+          <div className="footer-credit">
+            <a href="https://github.com/AOSSIE-Org/OpenVerifiableLLM" target="_blank" rel="noopener noreferrer">Made by AOSSIE<span className="sr-only"> (external, opens in a new tab)</span></a>
+            {sample && <span className="sample-label">Synthetic sample data</span>}
+          </div>
+          <p className="footer-note">OpenVerifiableLLM · Research Preview</p>
+        </div>
       </div>
     </div>
     <div className="footer-globe"><Globe /></div>
