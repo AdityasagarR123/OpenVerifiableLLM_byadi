@@ -29,7 +29,8 @@ export function Note({ title, children, danger = false }: { title: string; child
   return <aside className={'note' + (danger ? ' danger' : '')}><h2>{title}</h2><div>{children}</div></aside>;
 }
 export function State({ title, children, retry }: { title: string; children: ReactNode; retry?: () => void }) {
-  return <section className="state" role="status"><h2>{title}</h2><p>{children}</p>{retry && <Button onClick={retry}>Retry loading snapshot</Button>}</section>;
+  const isLoading = title.toLowerCase().includes('loading');
+  return <section className={'state' + (isLoading ? ' state-loading' : '')} role="status"><h2>{title}</h2><p>{children}</p>{retry && <Button onClick={retry}>Retry loading snapshot</Button>}</section>;
 }
 const resultDescriptions: Record<Result, string> = {
   PASS: 'This specific reported check passed within its scope.',
