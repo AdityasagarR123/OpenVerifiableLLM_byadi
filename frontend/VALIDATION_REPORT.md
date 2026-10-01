@@ -4,9 +4,9 @@
 
 Removed the `[ovl]` header mark and the full-width sample-data banner. Added “Made by AOSSIE” to the shared footer on every route, with a compact synthetic-data label in fixture mode. The supplied archive contained no “DESIGN PREVIEW” text. The existing visual design is otherwise preserved.
 
-For this revision, the production build, 48 unit/component tests, production isolation scan, and browser visual regression tests passed. All 12 desktop and mobile screenshots in `screenshots/` have been regenerated to match the updated typography (Plus Jakarta Sans body, Outfit headings, JetBrains Mono monospaced labels), navbar container, responsive hover effects, and clean header/footer design. Favicon requests have been suppressed via empty data URI.
+For this revision, the production build, 48 unit/component tests and production isolation scan passed again. Browser tests and screenshots below describe the preceding version; they were not rerun or regenerated for this header/footer change.
 
-Validated 1 October 2026 with Node 24.19 and npm 11.9.
+Validated 30 September 2026 with Node 24.19 and npm 11.9.
 
 | Check | Result |
 | --- | --- |

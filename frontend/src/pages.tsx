@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { type Snapshot, type Evidence, results, scopes, evidenceChecks, immutableFileUrl } from './data/contracts';
 import { Button, CheckFacts, Copy, EvidenceLink, External, Label, Note, ResultText, SourceInfo, State, Title, attributionNames, formatDate } from './components';
 import { detailHref } from './router';
+import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 
 const stages = ['Public sources', 'Prepared data / tokenizer', 'Initialization', 'Base training', 'Conversational training', 'Complete replay', 'Publication'];
 export function EvidenceTable({ snapshot, items }: { snapshot: Snapshot; items: Evidence[] }) {
@@ -68,15 +69,19 @@ export function EvidenceExplorer({ snapshot, params }: { snapshot: Snapshot; par
   const phases = [...new Set(snapshot.evidence.map(e => e.phase))].sort();
   const kinds = [...new Set(snapshot.evidence.map(e => e.kind))].sort();
   return <>
-    <Title label={'Evidence index / ' + (snapshot.mode === 'fixture' ? 'synthetic fixture' : 'public snapshot')} intro="Search reports and artifacts by phase, scope and result. Open a record to inspect its sources and limits.">Inspect the evidence.</Title>
+    <ContainerScroll titleComponent={<Title label={'Evidence index / ' + (snapshot.mode === 'fixture' ? 'synthetic fixture' : 'public snapshot')} intro="Search reports and artifacts by phase, scope and result. Open a record to inspect its sources and limits.">Inspect the evidence.</Title>}>
+      <div className="scroll-card-body stack">
+
     <div className="search"><label className="sr-only" htmlFor="evidence-search">Search evidence</label><input id="evidence-search" type="search" value={query} onChange={e => update('q', e.target.value)} placeholder="Search by title, ID or digest…" /></div>
     <div className="filters">{[
       ['phase', 'Phase', phase, phases], ['kind', 'Evidence kind', kind, kinds],
       ['result', 'Result', result, [...results]], ['scope', 'Scope', scope, [...scopes]],
     ].map(([key, title, value, options]) => <div className="filter" key={String(key)}><label className="eyebrow" htmlFor={'filter-' + key}>{title}</label><select id={'filter-' + key} value={value as string} onChange={e => update(key as string, e.target.value)}><option value="">All {key === 'kind' ? 'kinds' : key === 'phase' ? 'phases' : key === 'scope' ? 'scopes' : 'results'}</option>{(options as string[]).map(v => <option value={v} key={v}>{v}</option>)}</select></div>)}</div>
     <div className="list-summary"><p className="mono small muted" aria-live="polite">{items.length} {snapshot.mode === 'fixture' ? 'example ' : ''}records · URL-preserved filters</p><a href="#/evidence">Reset filters</a></div>
-    {snapshot.checks.length === 0 && <State title="No checks reported">The snapshot contains no verification checks. Evidence loading does not establish success.</State>}
+          {snapshot.checks.length === 0 && <State title="No checks reported">The snapshot contains no verification checks. Evidence loading does not establish success.</State>}
     <EvidenceTable snapshot={snapshot} items={items} />
+</div>
+    </ContainerScroll>
     <Note title="A result applies only to its stated scope."><p>Fixture: synthetic development data. Pilot: a limited experiment. Production: declared production artifacts and computation.</p></Note>
     <details><summary>How absent records are handled</summary><div className="three-columns">
       <div><h3>No checks reported</h3><p>A valid snapshot may contain zero checks. No success is inferred.</p></div>

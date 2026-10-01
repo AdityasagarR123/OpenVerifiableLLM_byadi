@@ -8,7 +8,7 @@ export const capabilities: Capabilities = {
     conversation: { id: 'synthetic-chat', repository: 'synthetic/not-a-release', revision: 'c'.repeat(40), root: 'd'.repeat(64) },
   },
 };
-export function createMockAdapter(scenario: MockScenario = 'success', delay = 600): InferenceAdapter {
+export function createMockAdapter(scenario: MockScenario = 'success', delay = 1200): InferenceAdapter {
   return {
     async capabilities() { return capabilities; },
     async generate(request: GenerationRequest, signal?: AbortSignal): Promise<GenerationResponse> {

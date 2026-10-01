@@ -4,6 +4,7 @@ import { isStale, loadSnapshot, snapshotUrl } from './data/load';
 import { useRoute } from './router';
 import { EvidenceDetail, EvidenceExplorer, InferenceUnavailable, Overview, Releases, Verification } from './pages';
 import { Button, Label, State, formatDate } from './components';
+import { ScrollLines, SiteFooter, useScrollReveal } from './chrome';
 
 const DevInference = import.meta.env.DEV && import.meta.env.VITE_MOCK_INFERENCE === 'true'
   ? lazy(() => import('./inference/DevInference')) : null;
@@ -38,6 +39,7 @@ export function App() {
     previousPath.current = path;
     document.title = (path.startsWith('/evidence/') ? 'Evidence detail' : nav.find(([p]) => p === path)?.[1] || 'Page unavailable') + ' / OpenVerifiableLLM';
   }, [path]);
+  useScrollReveal([path, data.status]);
   let content;
   if (data.status === 'loading') content = <State title="Loading display snapshot…">Fetching small presentation metadata. No verification is being performed.</State>;
   else if (data.status === 'error') content = <><Label>Data unavailable / no verification conclusion</Label><State title="Snapshot unavailable or invalid" retry={() => setAttempt(n => n + 1)}>{data.message}</State><p>Invalid data is not replaced with synthetic success. Review the configured snapshot and its schema.</p></>;
@@ -54,13 +56,14 @@ export function App() {
     else content = <><State title="Page unavailable">This route does not exist.</State><Button href="#/">Return to overview</Button></>;
   }
   return <>
+    <ScrollLines />
     <a className="skip-link" href="#main" onClick={e => { e.preventDefault(); main.current?.focus(); }}>Skip to content</a>
-    <header className="site-header"><div className="container masthead"><a href="#/" className="brand" aria-label="OpenVerifiableLLM overview"><span>OpenVerifiableLLM</span></a>
+    <header className="site-header"><div className="container masthead"><a href="#/" className="brand" aria-label="OpenVerifiableLLM overview"><span className="brand-mark" aria-hidden="true" /><span>OpenVerifiableLLM</span></a>
       <button className="menu-button" aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(v => !v)}>Menu</button>
       <nav id="primary-nav" aria-label="Primary" className={menuOpen ? 'open' : ''}>{nav.map(([p, label]) => <a key={p} href={'#' + p} aria-current={(p === '/' ? path === '/' : path.startsWith(p)) ? 'page' : undefined}>{label}</a>)}</nav>
     </div></header>
     {(data.status === 'stale') && <div className="container stale" role="status">Stale snapshot: generated {formatDate(data.snapshot.generatedAt)}. This display may not reflect current project status. <button onClick={() => setAttempt(n => n + 1)}>Reload metadata</button></div>}
-    <main id="main" ref={main} tabIndex={-1} className="container main"><div key={data.status === 'loading' ? 'loading' : path} className="fade-in stack">{content}</div></main>
-    <footer className="container footer"><hr /><div className="footer-credit"><a href="https://github.com/AOSSIE-Org/OpenVerifiableLLM" target="_blank" rel="noopener noreferrer">Made by AOSSIE<span className="sr-only"> (external, opens in a new tab)</span></a>{(data.status === 'ready' || data.status === 'stale') && data.snapshot.mode === 'fixture' && <span className="sample-label">Synthetic sample data</span>}</div></footer>
+    <main id="main" ref={main} tabIndex={-1} className="container main stack">{content}</main>
+    <SiteFooter nav={nav} sample={(data.status === 'ready' || data.status === 'stale') && data.snapshot.mode === 'fixture'} />
   </>;
 }

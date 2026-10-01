@@ -149,3 +149,10 @@ See [CHECKLIST.md](CHECKLIST.md), [VALIDATION_REPORT.md](VALIDATION_REPORT.md), 
 When integrated upstream, contributions follow the repository's existing license. Font licenses are preserved under `licenses/`; the distributed font packages use the SIL Open Font License. Other dependency license records remain in their npm packages.
 
 This frontend, fixtures, documentation and tests were produced with AI assistance using Codex and the Figma plugin. This disclosure does not claim human review or maintainer approval. The supplied CONTRIBUTING.md contains no separate AI-disclosure rule; recheck the current policy before opening a PR.
+
+## Visual refresh notes
+
+- Palette: `#f4efe6` paper, `#fefcf6` surface, `#162a2c` ink, `#5e6c5b` sage, `#d6e0e2` mist, `#686867` muted (CSS variables at the top of `src/styles.css`).
+- Fonts: Bricolage Grotesque (headings) and Instrument Sans (body); IBM Plex Mono is kept only for digests and code.
+- shadcn-style structure: `components.json`, `@/` alias, `src/lib/utils.ts`, `src/components/ui/`. Tailwind v4 loads theme and utilities only (no preflight) in `src/tailwind.css`, so the hand-written CSS is not reset.
+- `container-scroll-animation.tsx` powers the Evidence page card; `globe.tsx` (cobe 0.6.3) sits in the shared footer in `src/chrome.tsx`.
