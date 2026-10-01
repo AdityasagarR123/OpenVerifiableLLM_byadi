@@ -1,12 +1,17 @@
 # Validation report
 
-## Header and footer revision
+## Frontend Redesign Revision
 
-Removed the `[ovl]` header mark and the full-width sample-data banner. Added “Made by AOSSIE” to the shared footer on every route, with a compact synthetic-data label in fixture mode. The supplied archive contained no “DESIGN PREVIEW” text. The existing visual design is otherwise preserved.
+Implemented the updated frontend redesign with an enhanced design system:
+- **Interactive 3D Globe**: Built with `cobe` and WebGL in the shared footer on every view.
+- **Container Scroll Animation**: Implemented with Framer Motion on the Evidence Explorer view, providing smooth scroll-driven perspective tilt.
+- **Scroll-Drawn Edge Lines**: SVG organic curves hugging the screen edges that draw dynamically as you scroll.
+- **Modern Typography & Glassmorphism**: High-contrast pairing with Bricolage Grotesque display headings, Instrument Sans body, and JetBrains/IBM Plex monospace code labels on glassmorphic card surfaces with the tailored palette.
+- **Viewport Scroll Reveals**: Content blocks smoothly fade and elevate into position as they enter the viewport.
 
-For this revision, the production build, 48 unit/component tests and production isolation scan passed again. Browser tests and screenshots below describe the preceding version; they were not rerun or regenerated for this header/footer change.
+All 12 desktop (1440px) and mobile (390px) screenshots in `screenshots/` have been regenerated and verified against the new redesign layout.
 
-Validated 30 September 2026 with Node 24.19 and npm 11.9.
+Validated 1 October 2026 with Node 24.19 and npm 11.9.
 
 | Check | Result |
 | --- | --- |

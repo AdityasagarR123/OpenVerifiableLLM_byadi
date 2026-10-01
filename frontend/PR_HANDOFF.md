@@ -4,7 +4,7 @@
 
 ## Description
 
-Visitors need to distinguish model provenance, scoped replay reports and model availability. This adds an isolated React/TypeScript/Vite frontend with the supplied editorial Figma design, six responsive views, URL-preserved evidence filters, shareable records, parent/supersession navigation and full-digest copying.
+Visitors need to distinguish model provenance, scoped replay reports and model availability. This adds an isolated React/TypeScript/Vite frontend featuring an enhanced design system with an interactive 3D globe, container scroll perspective cards, six responsive views, URL-preserved evidence filters, shareable records, parent/supersession navigation and full-digest copying.
 
 The application uses validated, explicitly synthetic presentation metadata until maintainers supply an approved pinned public snapshot. Invalid/empty/missing metadata cannot become overall success. Verification results remain separate from workflow progress and browser loading. Both current model roles stay unreleased and production generation stays unavailable.
 
