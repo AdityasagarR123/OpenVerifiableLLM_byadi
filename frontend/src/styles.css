@@ -94,16 +94,16 @@ td { padding:12px; border-bottom:1px solid var(--rule); vertical-align:top; font
 .state { padding:24px; border:1px solid var(--rule); display:flex; flex-direction:column; align-items:start; gap:16px; border-radius:4px; }
 .state h2 { font-size:27px; }
 .state p { color:var(--muted); }
-.fade-in { animation:fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade-in { animation:fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes fadeIn {
-  from { opacity:0; transform:translateY(6px); }
+  from { opacity:0; transform:translateY(12px); }
   to { opacity:1; transform:translateY(0); }
 }
 @keyframes statePulse {
   0%, 100% { opacity:0.8; }
   50% { opacity:1; }
 }
-.state-loading { border-left:2px solid var(--teal); animation:fadeIn 0.3s ease-out both, statePulse 1.8s ease-in-out infinite; }
+.state-loading { border-left:2px solid var(--teal); animation:fadeIn 0.8s ease-out both, statePulse 1.8s ease-in-out infinite; }
 .search input { width:100%; border:1px solid var(--rule); border-radius:4px; padding:16px; background:var(--wash); color:var(--ink); min-height:54px; transition:border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .search input:hover { border-color:var(--teal); background:var(--paper); }
 .search input:focus { border-color:var(--teal); background:var(--paper); outline:none; box-shadow:0 0 0 3px rgba(36,93,82,0.15); }
