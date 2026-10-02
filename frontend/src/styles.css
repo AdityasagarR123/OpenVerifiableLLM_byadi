@@ -3,7 +3,9 @@
   --paper:#f4efe6; --surface:#fefcf6; --ink:#162a2c; --muted:#686867; --teal:#5e6c5b; --sage:#5e6c5b;
   --mist:#d6e0e2; --rule:rgba(22,42,44,.18); --wash:rgba(214,224,226,.5); --rust:#9e4937;
   --display:"Bricolage Grotesque", "Trebuchet MS", sans-serif;
-  font-family:"Instrument Sans", system-ui, sans-serif; color:var(--ink); background:var(--paper);
+  --sans:"Instrument Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", monospace;
+  font-family:var(--sans); color:var(--ink); background:var(--paper);
   font-synthesis:none; line-height:1.5; font-weight:400;
 }
 * { box-sizing:border-box; }

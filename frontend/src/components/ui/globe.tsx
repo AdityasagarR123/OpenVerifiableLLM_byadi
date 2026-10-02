@@ -1,7 +1,7 @@
 "use client"
 
 import createGlobe, { COBEOptions } from "cobe"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -40,12 +40,12 @@ export function Globe({
   className?: string
   config?: COBEOptions
 }) {
-  let phi = 0
-  let width = 0
+  const phi = useRef(0)
+  const width = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pointerInteracting = useRef<number | null>(null)
   const pointerInteractionMovement = useRef(0)
-  const [r, setR] = useState(0)
+  const r = useRef(0)
 
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value
@@ -58,23 +58,23 @@ export function Globe({
     if (pointerInteracting.current !== null) {
       const delta = clientX - pointerInteracting.current
       pointerInteractionMovement.current = delta
-      setR(delta / 200)
+      r.current = delta / 200
     }
   }
 
   const onRender = useCallback(
     (state: Record<string, any>) => {
-      if (pointerInteracting.current === null) phi += 0.005
-      state.phi = phi + r
-      state.width = width * 2
-      state.height = width * 2
+      if (pointerInteracting.current === null) phi.current += 0.005
+      state.phi = phi.current + r.current
+      state.width = width.current * 2
+      state.height = width.current * 2
     },
-    [r],
+    [],
   )
 
   const onResize = () => {
     if (canvasRef.current) {
-      width = canvasRef.current.offsetWidth
+      width.current = canvasRef.current.offsetWidth
     }
   }
 
@@ -86,8 +86,8 @@ export function Globe({
     try {
       globe = createGlobe(canvasRef.current!, {
         ...config,
-        width: width * 2,
-        height: width * 2,
+        width: width.current * 2,
+        height: width.current * 2,
         onRender,
       })
     } catch {

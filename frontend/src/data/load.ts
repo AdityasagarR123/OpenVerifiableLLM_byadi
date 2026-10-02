@@ -4,7 +4,7 @@ export const MAX_SNAPSHOT_BYTES = 1_000_000;
 // Only a configured same-origin display snapshot is fetched. Never evidence payloads.
 export function snapshotUrl(base: string, path: string, pageUrl: string): URL {
   const origin = new URL(pageUrl);
-  const root = new URL(base, origin);
+  const root = new URL(base.endsWith('/') ? base : base + '/', origin);
   const target = new URL(path, root);
   if (target.origin !== origin.origin || !target.pathname.startsWith(root.pathname) || !/^https?:$/.test(target.protocol))
     throw new Error('Snapshot path must stay inside the deployment directory on the same origin.');

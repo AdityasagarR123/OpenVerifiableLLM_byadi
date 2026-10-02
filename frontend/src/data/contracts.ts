@@ -63,6 +63,11 @@ export const SnapshotSchema = z.object({
     if (new Set(keys).size !== keys.length) ctx.addIssue({ code: 'custom', message: 'Duplicate IDs in ' + key });
   }
   if (new Set(s.releases.map(r => r.role)).size !== 2) ctx.addIssue({ code: 'custom', message: 'Expected one base and one chat release' });
+  const base = s.releases.find(r => r.role === 'base');
+  for (const r of s.releases) {
+    if (r.role === 'chat' && r.availability === 'available' && r.parentReleaseId !== base?.id)
+      ctx.addIssue({ code: 'custom', message: 'Chat release parent must reference the base release' });
+  }
   if (s.mode === 'fixture' && s.evidence.some(e => !e.synthetic)) ctx.addIssue({ code: 'custom', message: 'Fixture evidence must be labelled synthetic' });
   if (s.mode === 'public-snapshot' && s.evidence.some(e => e.synthetic))
     ctx.addIssue({ code: 'custom', message: 'Public snapshots cannot contain synthetic evidence' });

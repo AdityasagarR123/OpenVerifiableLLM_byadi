@@ -69,6 +69,11 @@ describe('presentation contract fails closed', () => {
     expect(immutableFileUrl(future, '../../private')).toBeNull();
     expect(() => validateSnapshot({ ...fixture, releases: [{ ...future, identity: { ...future.identity, revision: 'main' } }, fixture.releases[1]] })).toThrow();
   });
+  it('requires an available chat release parent to match the base release ID', () => {
+    const s = structuredClone(scenario('future-release')) as any;
+    s.releases[1].parentReleaseId = 'unrelated-id';
+    expect(() => validateSnapshot(s)).toThrow('Chat release parent must reference the base release');
+  });
   it('rejects untested command syntax and commands with missing validation evidence', () => {
     expect(() => validateSnapshot({ ...fixture, commands: [{ id: 'command', approved: false }] })).toThrow();
   });
@@ -77,6 +82,7 @@ describe('small snapshot loader', () => {
   it('confines metadata paths to the deployed directory', () => {
     expect(snapshotUrl('/project/', 'data/snapshot.json', 'https://site.test/project/#/evidence').href).toBe('https://site.test/project/data/snapshot.json');
     expect(() => snapshotUrl('/project/', '../private.json', 'https://site.test/project/')).toThrow();
+    expect(() => snapshotUrl('/project', '../project-private/x.json', 'https://site.test/project/')).toThrow();
     expect(() => snapshotUrl('./', 'https://other.test/payload', 'https://site.test/')).toThrow();
   });
   it('reports stale data independently of verification', () => {
